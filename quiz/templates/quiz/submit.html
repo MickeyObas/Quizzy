@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Submit Confirmation</title>
+
+    <script type="text/javascript">
+        let csrftoken = getCookie('csrftoken');
+    
+            function getCookie(name){
+                let cookieArr = document.cookie.split(";")
+                for(let i=0; i<cookieArr.length; i++){
+                    let cookiePair = cookieArr[i].split("=")
+                    if(name == cookiePair[0].trim()){
+                        return decodeURIComponent(cookiePair[1])
+                    }
+                }
+                return null
+            }
+        </script>
+
+</head>
+<body>
+   <p>Are you sure you want to submit? Please note that this can NOT be reversed.</p> 
+   <button id="backButton">Go Back</button>
+   <button id="confirmSubmitButton">Submit</button>
+
+   <script>
+        const backButton = document.getElementById("backButton")
+        const confirmSubmitButton = document.getElementById("confirmSubmitButton")
+
+        backButton.addEventListener('click', (e) => {
+            e.preventDefault()
+            url = "{{request.META.HTTP_REFERER}}"
+            window.location.href = url
+        })
+
+        confirmSubmitButton.addEventListener('click', (e) => {
+            e.preventDefault()
+            url = "{% url 'submit' %}"
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+            })
+            .then(() => {
+                window.location.href = "{% url 'index' %}"
+            })
+        })
+
+   </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Quiz: {{quiz.title}}</h2>
+    <form action="{% url 'process_answer' %}" method="post">
+        {% csrf_token %}
+        {% for question in questions%}
+        <input type="hidden" name="question_id" value="{{question.id}}">
+        <p>{{question.content}}</p>
+        <p>a<input type="radio" name="user_answer{{question.id}}" id="opA" value="{{question.option_1}}"><span>{{question.option_1}}</span></p>
+        <p>b<input type="radio" name="user_answer{{question.id}}" id="opB" value="{{question.option_2}}"><span>{{question.option_2}}</span></p>
+        <p>c<input type="radio" name="user_answer{{question.id}}" id="opC" value="{{question.option_3}}"><span>{{question.option_3}}</span></p>
+        <p>d<input type="radio" name="user_answer{{question.id}}" id="opD" value="{{question.option_4}}"><span>{{question.option_4}}</span></p>
+        {% endfor %}
+        <input type="submit" value="Submit">
+</body>
+</html>
