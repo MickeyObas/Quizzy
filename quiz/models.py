@@ -4,6 +4,7 @@ from accounts.models import CustomUser
 
 class Quiz(models.Model):
     title = models.CharField(max_length=80)
+    duration = models.IntegerField(default=10)
 
     class Meta:
         verbose_name_plural = 'Quizzes'
@@ -13,7 +14,7 @@ class Quiz(models.Model):
     
     @property
     def questions_count(self):
-        return self.question_set.all.count()
+        return self.question_set.count()
     
 
 class Question(models.Model):

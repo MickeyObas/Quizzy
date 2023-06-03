@@ -25,7 +25,8 @@
 <body>
     <h3>Quiz Details</h3>
     <p>Title: {{quiz.title}}</p>
-    <p>Duration: {{duration}}</p>
+    <p>Duration: {{quiz.duration}} minutes</p>
+    <p>Number of Questions: {{quiz.questions_count }}</p>
     <form method="post" action="{% url 'quiz_session_initiate' quiz.id %}">
         {% csrf_token %}
         <button type="submit">Start Quiz</button>
