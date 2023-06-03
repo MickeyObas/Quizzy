@@ -1,6 +1,12 @@
-from django.shortcuts import render, get_object_or_404, HttpResponse,  redirect
+from django.shortcuts import (
+    render, 
+    get_object_or_404, 
+    HttpResponse, 
+    redirect
+)
 
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 import random
 import json
@@ -8,6 +14,8 @@ import json
 from quiz.models import Quiz, Question, UserAnswerMap, UserQuizSession
 from .utils import process_answer
 
+
+@login_required(login_url='login')
 def index(request):
     quizzes = Quiz.objects.all()
 
@@ -18,6 +26,7 @@ def index(request):
     return render(request, "quiz/index.html", context)
 
 
+@login_required(login_url='login')
 def quiz_confirm(request, pk):
 
     quiz = get_object_or_404(Quiz, id=pk)
@@ -29,7 +38,7 @@ def quiz_confirm(request, pk):
 
     return render(request, "quiz/quiz_confirm.html", context)
 
-
+@login_required(login_url='login')
 def quiz_session_initiate(request, pk):
     quiz = get_object_or_404(Quiz, id=pk)
 
@@ -43,7 +52,7 @@ def quiz_session_initiate(request, pk):
 
     return redirect('quiz', pk=quiz.id)
 
-
+@login_required(login_url='login')
 def quiz(request, pk):
     quiz = get_object_or_404(Quiz, id=pk)
     current_user_session = user_session = UserQuizSession.objects.get(user=request.user, quiz=quiz, completed=False)
@@ -70,6 +79,7 @@ def quiz(request, pk):
     return redirect(question, pk=question_id, is_last_question=is_last_question)
 
 
+@login_required(login_url='login')
 def question(request, pk=None, is_last_question=None):
 
     question = Question.objects.get(id=pk)
@@ -81,7 +91,7 @@ def question(request, pk=None, is_last_question=None):
 
     return render(request, "quiz/question.html", context)
 
-
+@login_required(login_url='login')
 def save_answer(request):
 
     data = json.loads(request.body)
@@ -102,6 +112,7 @@ def save_answer(request):
     return JsonResponse("Completed", safe=False)
 
 
+@login_required(login_url='login')
 def submit_quiz(request):
 
     if request.method == 'POST':
