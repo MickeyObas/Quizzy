@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Internal Apps
     "accounts.apps.AccountsConfig",
-    "quiz.apps.QuizConfig"
+    "quiz.apps.QuizConfig",
+    "results.apps.ResultsConfig"
 ]
 
 MIDDLEWARE = [
