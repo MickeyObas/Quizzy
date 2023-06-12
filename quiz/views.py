@@ -123,6 +123,8 @@ def submit_quiz(request):
         for u in user_quiz_session.useranswermap_set.all():
             if u.user_answer == u.question.answer:
                 score += 1
+                u.is_correct = True
+                u.save()
 
         user_quiz_session.total_score = score
         user_quiz_session.save()
