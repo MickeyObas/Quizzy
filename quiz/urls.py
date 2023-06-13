@@ -12,6 +12,4 @@ urlpatterns = [
     
     path("save_answer", views.save_answer, name="save_answer"),
     path("submit", views.submit_quiz, name="submit"),
-
-    path("results", include('results.urls'))
 ]

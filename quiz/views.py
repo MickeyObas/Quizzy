@@ -12,6 +12,7 @@ import random
 import json
 
 from quiz.models import Quiz, Question, UserAnswerMap, UserQuizSession
+from results.utils import generate_send_pdf
 from .utils import process_answer
 
 
@@ -130,6 +131,9 @@ def submit_quiz(request):
         user_quiz_session.save()
         user_quiz_session.completed = True
         user_quiz_session.save()
+
+        # Generate & Send Result PDF to user's email
+        generate_send_pdf(request)
 
         return redirect('index')
 

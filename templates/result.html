@@ -8,7 +8,15 @@
 <body>
     <h2>Results for: {{result}}</h2>
     <p>Score: {{score}}</p>
-    <p>Status: {{status}}</p>
-    
+    <p>Total Questions: {{total_questions}}</p>
+    <br>
+    {% for attempt in user_answer_maps %}
+    {% if attempt.is_correct == False %}
+    <p>{{attempt.question}}</p>
+    <p>You chose {{attempt.user_answer}}</p>
+    <p>The correct answer is {{attempt.question.answer}}</p>
+    <br>
+    {% endif %}
+    {% endfor %}
 </body>
 </html>
