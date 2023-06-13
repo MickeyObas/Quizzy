@@ -1,20 +1,18 @@
+import random
 from io import BytesIO
-from django.http import HttpResponse
-from django.template.loader import get_template
 
 from xhtml2pdf import pisa
 
+from django.conf import settings
 from django.shortcuts import render
-from django.template.loader import render_to_string
-
 from django.http import HttpResponse
 from django.views.generic import View
+from django.template.loader import render_to_string
 from django.template.loader import get_template
 from django.core.mail import EmailMessage, send_mail
-from django.conf import settings
+
 from quiz.models import Quiz, UserQuizSession
 
-import random
 
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
@@ -53,8 +51,11 @@ def generate_send_pdf(request, *args, **kwargs):
             "quiz": quiz
         })
 
-        email = EmailMessage(mail_subject, message, settings.EMAIL_HOST_USER, to=[''.format(quiz_session.user.email)])
+        email = EmailMessage(mail_subject, message, settings.EMAIL_HOST_USER, to=[(quiz_session.user.email)])
         email.attach(filename, pdf, 'application/pdf')
         email.send(fail_silently=False)
+
+    else:
+        return HttpResponse("An error occured.")
 
     

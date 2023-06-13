@@ -6,6 +6,7 @@ from django.shortcuts import (
 )
 
 from django.http import JsonResponse
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 import random
@@ -134,6 +135,8 @@ def submit_quiz(request):
 
         # Generate & Send Result PDF to user's email
         generate_send_pdf(request)
+
+        messages.success(request, "Your result has been sent to your email address.")
 
         return redirect('index')
 
